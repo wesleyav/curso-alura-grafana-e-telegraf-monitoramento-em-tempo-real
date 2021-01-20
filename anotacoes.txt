@@ -95,3 +95,25 @@ Variables > Query: SHOW TAG VALUES FROM system WITH KEY=host
 New Panel > Add Query
 
 #################################################
+
+# Monitorar as instâncias do Docker
+
+  # Colocar o usuário telegraf dentro do grupo do docker
+    1- $ sudo usermod -aG docker telegraf
+
+  # Editar o arquivo de configuração
+    1- $ sudo vi /etc/telegraf/telegraf.conf
+       # Remover o comentário das seguintes linhas para o Docker:	
+          [[inputs.docker]]
+   	  endpoint = "unix:///var/run/docker.sock"
+   	  container_names = []
+   	  container_name_include = []
+   	  container_name_exclude = []
+   	  timeout = "5s"
+   	  total = false
+       # Esc, :x para salvar e sair
+       # Reiniciar o serviço do Telegraf
+       $ sudo service telegraf restart
+       $ sudo service telegraf status
+
+#################################################
