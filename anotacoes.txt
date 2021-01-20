@@ -67,9 +67,31 @@ $ docker run -d -v /home/vagrant/volumes/influxdb/:/var/lib/influxdb -p 8083:808
   # 6- Conectar no influx
       $ influx
 
-  # 6- Visualizar as bases no influx, base telegraf e checar métricas
+  # 7- Visualizar as bases no influx, base telegraf e checar métricas
       $ show databases
       $ use telegraf
       $ show measurements
+
+#################################################
+
+# Configurar o data source no Grafana:
+
+Configuration > Data Sources > Add data source > InfluxDB
+Name: InfluxDB
+URL: http://192.168.33.10:8086
+Access: Browser
+Database: telegraf
+Save & Test
+
+# Ler a primeira métrica em um dashboard:
+
+Create > Dashboard > Configurações
+General > Name: Aula 2 - Como armazenar as métricas
+Variables > Type: Query
+Variables > Name: server
+Variables > Type: Query
+Variables > Data source: InfluxDB
+Variables > Query: SHOW TAG VALUES FROM system WITH KEY=host
+New Panel > Add Query
 
 #################################################
