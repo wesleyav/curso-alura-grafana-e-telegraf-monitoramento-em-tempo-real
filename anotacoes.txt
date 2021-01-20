@@ -117,3 +117,12 @@ New Panel > Add Query
        $ sudo service telegraf status
 
 #################################################
+
+    # Visualizar as bases no influx, base telegraf e checar métricas
+      $ docker exec -ti influxdb bash
+      $ influx
+      $ show databases
+      $ use telegraf
+      $ show measurements
+
+#################################################
