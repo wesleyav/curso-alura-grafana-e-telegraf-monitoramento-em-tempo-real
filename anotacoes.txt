@@ -191,3 +191,9 @@ $ SELECT count("request") FROM "apache_access_log" WHERE ("host" =~ /^$server$/)
 11) Pronto, agora é só voltar para o Dashboard e você vai poder visualizar o novo painel Erros 404.
 
 #################################################
+
+# Query
+# SELECT "request" FROM "apache_access_log" WHERE "host" =~ /^$server$/
+# SELECT "request" FROM "apache_access_log" WHERE "host" =~ /^$server$/ AND "resp_code" =~ /$code$/ AND $timeFilter
+
+#################################################
