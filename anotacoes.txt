@@ -126,3 +126,36 @@ New Panel > Add Query
       $ show measurements
 
 #################################################
+
+# Instalar o Apache
+$ sudo apt-get install apache2 -y
+
+# No navegador acesse http://192.168.33.10/
+
+# Visualizar o access log
+$ sudo cat /var/log/apache2/access.log
+
+# Permitir que o telegraf acesse os logs
+  $ sudo usermod -aG adm telegraf
+
+  # Editar o arquivo de configuração
+    1- $ sudo vi /etc/telegraf/telegraf.conf
+       # Remover o comentário das seguintes linhas para o Docker:
+         [[inputs.logparser]]
+	 files e adicionar o 2 no apache (caminho do arquivo de log do apache)
+	 from_begining = false e alterar para true
+	 [inputs.logparser.grok]
+	 patterns
+	 measurement
+	 # Esc, :x para salvar e sair
+         # Reiniciar o serviço do Telegraf
+         $ sudo service telegraf restart
+         $ sudo service telegraf status
+	 
+         $ docker exec -ti influxdb bash
+	 $ influx
+         $ show databases
+         $ use telegraf
+         $ show measurements
+
+#################################################
