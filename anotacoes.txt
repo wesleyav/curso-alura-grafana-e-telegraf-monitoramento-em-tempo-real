@@ -1,0 +1,36 @@
+# VirtualBox
+# Vagrant
+# Cmder
+
+# No diretório assets, (onde está o arquivo vagrantile) abrir o terminal e:
+$ vagrant up
+
+# Acessar a VM via SSH
+$ vagrant ssh
+
+# Caso apresente erro de SSH, setar o SSH embarcado ao Vagrant
+$ set VAGRANT_PREFER_SYSTEM_BIN=0
+
+# Atualização de pacotes
+$ sudo apt-get update && sudo apt-get upgrade -y
+
+# Instalar o Grafana
+  # 1- Instalar Docker
+      $ curl -fsSL https://get.docker.com -o get-docker.sh
+      $ sudo sh get-docker.sh
+
+  # Usuários
+    2- $ sudo usermod -aG docker vagrant
+       # Fazer logoff
+
+  # Criar volume para persistência dos dados do grafana
+    3- $ mkdir -p volumes/grafana
+
+  # Criar uma rede para o Grafana
+    3- $ docker network create grafana-net
+
+  # Pegar o id do usuário por questões de permissão do docker e subir o container
+    4- $ ID=$(id -u)
+    5- $ docker run -d --user $ID -v /home/vagrant/volumes/grafana/:/var/lib/grafana -p 3000:3000 --name=grafana --network=grafana-net grafana/grafana
+
+#################################################
