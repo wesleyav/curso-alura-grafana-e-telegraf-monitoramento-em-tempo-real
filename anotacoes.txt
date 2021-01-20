@@ -34,3 +34,42 @@ $ sudo apt-get update && sudo apt-get upgrade -y
     5- $ docker run -d --user $ID -v /home/vagrant/volumes/grafana/:/var/lib/grafana -p 3000:3000 --name=grafana --network=grafana-net grafana/grafana
 
 #################################################
+
+# Instalar um banco de dados de séries temporais (TSDB)
+
+# Criar diretório do influx
+$ mkdir volumes/influxdb
+
+# Criar container do influx via Docker
+$ docker run -d -v /home/vagrant/volumes/influxdb/:/var/lib/influxdb -p 8083:8083 -p 8086:8086 -p 25826:25826/udp --name=influxdb --network=grafana-net influxdb:1.0
+
+# Telegraf (coletor de dados)
+
+# Instalar o Telegraf
+
+  # 1- Adicionar a chave e repositório
+      $ wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+      $ source /etc/lsb-release
+      $ echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+
+  # 2- Atualização do ubuntu e instalação de pacotes necessários
+      $ sudo apt-get update && sudo apt-get install apt-transport-https
+
+  # 3- Instalar o Telegraf
+      $ sudo apt-get install telegraf
+
+  # 4- Verificar status
+      $ sudo service telegraf status
+
+  # 5- Conectar no container do banco (influx)
+      $ docker exec -it influxdb bash
+
+  # 6- Conectar no influx
+      $ influx
+
+  # 6- Visualizar as bases no influx, base telegraf e checar métricas
+      $ show databases
+      $ use telegraf
+      $ show measurements
+
+#################################################
